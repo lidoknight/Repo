@@ -24,6 +24,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.dms.bean.Room;
+import com.dms.comm.DBComms;
+import com.dms.comm.PostCallback;
 import com.dms.comm.RoomDao;
 import com.dms.utils.DBUtils;
 
@@ -90,12 +92,29 @@ public class CommonTest {
 		room.setdId("15-503");
 		room.setsNum(5);
 		paramMap = convertToMap(room, true);
+		paramMap.put("startIndex", 0);
+		paramMap.put("length", 10);
+		paramMap.put(DBComms.startIndex, 0+"");
+		paramMap.put(DBComms.length, 10+"");
+		final Map testMap = paramMap;
 		Class<?> entityClass = Room.class;
 		System.out.println(DBUtils.getQuerySQL(paramMap, entityClass));
+		System.out.println(DBUtils.getQuerySQL(paramMap, entityClass,
+				new PostCallback() {
+					final String s = "startIndex";
+					final String l = "length";
+
+					public String append() {
+						StringBuilder sb = new StringBuilder(" limit ");
+						sb.append(testMap.get(s) + "," + testMap.get(l));
+						return sb.toString();
+					}
+				}));
 		System.out.println(DBUtils.getUpdateSQL(paramMap, entityClass));
 		System.out.println(DBUtils.getRemoveSQL(paramMap, entityClass));
 		System.out.println(DBUtils.getInsertSQL(convertToMap(room, false),
 				entityClass));
+		System.out.println(DBUtils.getPageSQL(paramMap, entityClass));
 	}
 
 	@Test
@@ -106,7 +125,7 @@ public class CommonTest {
 		Map<String, Object> map = BeanUtils.describe(room);
 		map.remove("class");
 		System.out.println(map.size());
-		System.out.println(Map.class.isAssignableFrom(HashMap.class));//true
+		System.out.println(Map.class.isAssignableFrom(HashMap.class));// true
 	}
 
 	// --------------------------------------

@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.dms.utils.DBUtils;
+import com.mysql.jdbc.StringUtils;
 
 public class BaseDao<T> {
 
@@ -29,43 +30,43 @@ public class BaseDao<T> {
 
 	// Query-------------------------------
 	@SuppressWarnings("unchecked")
-	public T queryForObject(Map<String, ?> paramMap) {
+	public T queryForObject(Map<String, Object> paramMap) {
 		return (T) jdbcTemplate.queryForObject(
 				DBUtils.getQuerySQL(paramMap, entityClass), paramMap,
 				entityClass);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> queryForList(Map<String, ?> paramMap) {
+	public List<T> queryForList(Map<String, Object> paramMap) {
 		return (List<T>) jdbcTemplate.queryForList(
 				DBUtils.getQuerySQL(paramMap, entityClass), paramMap,
 				entityClass);
 	}
 
-	public List<Map<String, Object>> queryForListMap(Map<String, ?> paramMap) {
+	public List<Map<String, Object>> queryForListMap(
+			Map<String, Object> paramMap) {
 		return jdbcTemplate.queryForList(
 				DBUtils.getQuerySQL(paramMap, entityClass), paramMap);
 	}
 
 	// DML
-	public int insert(Map<String, ?> paramMap) {
+	public int insert(Map<String, Object> paramMap) {
 		return jdbcTemplate.update(DBUtils.getInsertSQL(paramMap, entityClass),
 				paramMap);
 	}
 
-	public int update(Map<String, ?> paramMap) {
+	public int update(Map<String, Object> paramMap) {
 		return jdbcTemplate.update(DBUtils.getUpdateSQL(paramMap, entityClass),
 				paramMap);
 	}
 
-	public int delete(Map<String, ?> paramMap) {
+	public int delete(Map<String, Object> paramMap) {
 		return jdbcTemplate.update(DBUtils.getRemoveSQL(paramMap, entityClass),
 				paramMap);
 	}
 
-	
-	//customization
-	public T execute(Map<String, ?> paramMap) {
+	// customization
+	public T execute(Map<String, Object> paramMap) {
 		return jdbcTemplate.execute(
 				"insert into room values(:rId,:dId,:leader,:phone,:sNum)",
 				paramMap, new PreparedStatementCallback<T>() {
@@ -76,6 +77,32 @@ public class BaseDao<T> {
 						return null;
 					}
 				});
+	}
+
+	public int count(Map<String, Object> paramMap) {
+		return jdbcTemplate.queryForInt(
+				DBUtils.getCountSQL(paramMap, entityClass), paramMap);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<T> pageQueryWithStartAndLenth(Map<String, Object> paramMap) {
+		return (List<T>) jdbcTemplate.queryForList(
+				DBUtils.getPageSQL(paramMap, entityClass), paramMap,
+				entityClass);
+	}
+
+	public List<T> pageQueryWithSizeAndPage(Map<String, Object> paramMap) {
+		int count = count(paramMap);
+		String sizeValid = (String) paramMap.get(DBComms.size);
+		String pageValid = (String) paramMap.get(DBComms.page);
+		assert !StringUtils.isNullOrEmpty(sizeValid) : "Size missing";
+		// make sure to cast successfully
+		int size = Integer.valueOf(sizeValid);
+		int pageNum = Integer.valueOf(pageValid);
+		int pageCount = count / size + count % count == 0 ? 0 : 1;
+		paramMap.put(DBComms.startIndex, pageNum * size);
+		paramMap.put(DBComms.length, size);
+		return pageQueryWithStartAndLenth(paramMap);
 	}
 
 	// Utility-----------------------------
