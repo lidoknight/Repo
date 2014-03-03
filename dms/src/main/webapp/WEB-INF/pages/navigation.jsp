@@ -1,12 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<ul>
+	<li>日常管理
+		<ul>
+			<li>寝室物品配置</li>
+			<li>携物外出登记</li>
+			<li>查询信息</li>
+		</ul>
+	</li>
+	<li>人员管理
+		<ul>
+			<li>管理人员信息</li>
+			<li>学生信息</li>
+		</ul>
+	</li>
+	<li>系统管理
+		<ul>
+			<li>添加用户</li>
+			<li>修改用户密码</li>
+			<li>退出系统?</li>
+		</ul>
+	</li>
+	<li>帮助信息</li>
+</ul>

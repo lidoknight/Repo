@@ -1,6 +1,6 @@
 package com.dms.bean;
 
-public class Role {
+public class Role implements IPassword{
 	/** 角色编号 */
 	private String rId;
 	/** 登录密码 */

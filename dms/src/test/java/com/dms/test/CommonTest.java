@@ -24,7 +24,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.dms.bean.Room;
+import com.dms.bean.Student;
 import com.dms.comm.DBComms;
+import com.dms.comm.PasswordDao;
 import com.dms.comm.PostCallback;
 import com.dms.comm.RoomDao;
 import com.dms.utils.DBUtils;
@@ -126,6 +128,18 @@ public class CommonTest {
 		map.remove("class");
 		System.out.println(map.size());
 		System.out.println(Map.class.isAssignableFrom(HashMap.class));// true
+	}
+	
+	@Test
+	public void daoTest(){
+		PasswordDao dao=new PasswordDao();
+		dao.setJdbcTemplate(jdbcTemplate);
+		Student student=new Student();
+		student.setsId("2084908129");
+		student.setsName("王洛");
+		student.setClassId("计算机081");
+		Map<String,Object> paramMap=DBUtils.convertToMap(student, true);
+		dao.insert(paramMap);
 	}
 
 	// --------------------------------------

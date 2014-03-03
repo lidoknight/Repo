@@ -4,7 +4,7 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-			classpath:conf/spring/dms-db.xml
+			classpath:conf/spring/dms-service.xml
 		</param-value>
   </context-param>
   <filter>
