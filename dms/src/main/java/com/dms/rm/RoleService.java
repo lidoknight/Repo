@@ -1,5 +1,9 @@
 package com.dms.rm;
 
+import java.util.List;
+
+import com.dms.bean.IPassword;
+
 /**
  * 
  * 人员管理模块提供功能
@@ -9,6 +13,7 @@ package com.dms.rm;
  */
 public interface RoleService {
 
+	boolean isExist();
 	
 	boolean register();
 	
@@ -23,6 +28,10 @@ public interface RoleService {
 	boolean[] batchAddRoles();
 	
 	boolean[] batchRevmRoles();
+	
+	<T> List<T> queryRoles();
+	
+	
 	
 	//学生特有管理内容
 	boolean withdraw();

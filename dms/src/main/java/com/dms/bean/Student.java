@@ -2,7 +2,7 @@ package com.dms.bean;
 
 import java.util.Date;
 
-public class Student {
+public class Student implements IPassword {
 
 	/** 学号 */
 	private String sId;
@@ -16,9 +16,9 @@ public class Student {
 	private String collegeId;
 	/** 班级 */
 	private String classId;
-	/**寝室编号*/
+	/** 寝室编号 */
 	private String dormitoryId;
-	/**房间编号*/
+	/** 房间编号 */
 	private String roomId;
 	/** 辅导员 */
 	private String instructorId;

@@ -178,7 +178,6 @@ public class DBUtils extends DBComms {
 			} else {
 				try {
 					Map<String, Object> paramMap = BeanUtils.describe(entity);
-					paramMap.remove("class");
 					if (compress) {
 						Field[] fields = entity.getClass().getDeclaredFields();
 						Object obj = null;
